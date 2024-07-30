@@ -2,7 +2,7 @@
 
 import { Client, Account, Models, ID, Databases, Storage } from "appwrite";
 import { User } from "./interface";
-import sdk, { Permission, Role } from "node-appwrite";
+import * as sdk from "node-appwrite";
 
 interface Sponsors {
   id: number;
@@ -29,10 +29,10 @@ class ServerConfig {
   createRegColl(id: string, name: string) {
     this.databases
       .createCollection(this.regDb, id, name, [
-        Permission.read(Role.any()), // Anyone can view this document
-        Permission.update(Role.any()), // Writers can update this document
-        Permission.create(Role.any()), // Admins can update this document
-        Permission.delete(Role.any()), // Admins can delete this document
+       sdk.Permission.read(sdk.Role.any()), // Anyone can view this document
+       sdk.Permission.update(sdk.Role.any()), // Writers can update this document
+       sdk.Permission.create(sdk.Role.any()), // Admins can update this document
+       sdk.Permission.delete(sdk.Role.any()), // Admins can delete this document
       ])
       .then((res) => {
         this.databases.createStringAttribute(this.regDb, id, "name", 50, false);
@@ -45,10 +45,10 @@ class ServerConfig {
   createSponColl(id: string, name: string, sponsor: Sponsors[], user:string) {
     this.databases
       .createCollection(this.sponDb, id, name, [
-        Permission.read(Role.any()), // Anyone can view this document
-        Permission.update(Role.user(user)), // Writers can update this document
-        Permission.create(Role.user(user)), // Admins can update this document
-        Permission.delete(Role.user(user)), // Admins can delete this document
+        sdk.Permission.read(sdk.Role.any()), // Anyone can view this document
+        sdk.Permission.update(sdk.Role.user(user)), // Writers can update this document
+        sdk.Permission.create(sdk.Role.user(user)), // Admins can update this document
+        sdk.Permission.delete(sdk.Role.user(user)), // Admins can delete this document
       ])
       .then((res) => {
         this.databases
@@ -94,7 +94,7 @@ class AppwriteConfig {
   googlelog(): void {
     try {
       const promise = this.account.createOAuth2Session(
-        "google",
+        sdk.OAuthProvider.Google,
         `${process.env.NEXT_PUBLIC_APPURL}/login/sucess`,
         `${process.env.NEXT_PUBLIC_APPURL}/login/failure`,
         []
@@ -108,7 +108,7 @@ class AppwriteConfig {
   githublog(): void {
     try {
       this.account.createOAuth2Session(
-        "github",
+        sdk.OAuthProvider.Github,
         `${process.env.NEXT_PUBLIC_APPURL}/login/sucess`,
         `${process.env.NEXT_PUBLIC_APPURL}/login/failure`,
         []
@@ -144,7 +144,7 @@ class AppwriteConfig {
   }
 
   emailLogin(email: string, password: string): Promise<Models.Session> {
-    return this.account.createEmailSession(email, password);
+    return this.account.createSession(email, password);
   }
 
   signOut(id: string): boolean {
@@ -158,7 +158,7 @@ class AppwriteConfig {
   }
 
   magicUrlLogin(email: string): void {
-    this.account.createMagicURLSession(
+    this.account.createMagicURLToken(
       ID.unique(),
       email,
       `${process.env.NEXT_PUBLIC_APPURL}/login/sucess`

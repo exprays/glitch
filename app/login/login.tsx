@@ -1,6 +1,5 @@
 "use client";
 import Image from "next/image";
-import "@appwrite.io/pink";
 import { FcGoogle } from "react-icons/fc";
 import { AiFillGithub } from "react-icons/ai";
 import { VscWand } from "react-icons/vsc";
@@ -90,8 +89,8 @@ export default function LoginComponent() {
                   className="w-4 h-4 inline-block align-text-top"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                     stroke-width="2"
                     d="M10 19l-7-7m0 0l7-7m-7 7h18"
                   />

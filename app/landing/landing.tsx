@@ -1,5 +1,4 @@
 import { GoBroadcast } from "react-icons/go";
-import "@appwrite.io/pink";
 import { useRouter } from "next/navigation";
 
 export default function Body() {
@@ -26,8 +25,8 @@ export default function Body() {
               <svg
                 fill="none"
                 stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 stroke-width="2"
                 className="text-[#f02e65] w-12 h-12 mb-3 inline-block"
                 viewBox="0 0 24 24"
@@ -46,8 +45,8 @@ export default function Body() {
               <svg
                 fill="none"
                 stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 stroke-width="2"
                 className="text-[#f02e65] w-12 h-12 mb-3 inline-block"
                 viewBox="0 0 24 24"
@@ -67,8 +66,8 @@ export default function Body() {
               <svg
                 fill="none"
                 stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 stroke-width="2"
                 className="text-[#f02e65] w-12 h-12 mb-3 inline-block"
                 viewBox="0 0 24 24"
@@ -87,8 +86,8 @@ export default function Body() {
               <svg
                 fill="none"
                 stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 stroke-width="2"
                 className="text-[#f02e65] w-12 h-12 mb-3 inline-block"
                 viewBox="0 0 24 24"

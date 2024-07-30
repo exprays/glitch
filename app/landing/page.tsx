@@ -1,6 +1,6 @@
 "use client";
 import Body from "./landing";
-import Header from "./../components/header";
+import Header from "@/components/header";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 

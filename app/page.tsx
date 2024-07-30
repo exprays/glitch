@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
-import Icon from "../public/logo/wordmark.svg";
+import Icon from "@/public/logo/wordmark.svg";
 import { useRouter } from "next/navigation";
 
 const navigation = [
