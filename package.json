@@ -12,8 +12,13 @@
     "@appwrite.io/pink": "^0.26.0",
     "@headlessui/react": "^2.1.2",
     "@heroicons/react": "^2.1.5",
+    "@hookform/resolvers": "^3.9.0",
+    "@radix-ui/react-label": "^2.1.0",
+    "@radix-ui/react-slot": "^1.1.0",
     "appwrite": "^15.0.0",
     "autoprefixer": "10.4.19",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
     "eslint": "9.8.0",
     "eslint-config-next": "14.2.5",
     "lottie-react": "^2.4.0",
@@ -26,7 +31,9 @@
     "react-icons": "^5.2.1",
     "react-markdown": "^9.0.1",
     "remark-gfm": "^4.0.0",
-    "sweetalert": "^2.1.2"
+    "sweetalert": "^2.1.2",
+    "tailwind-merge": "^2.4.0",
+    "zod": "^3.23.8"
   },
   "browser": {
     "fs": false,
