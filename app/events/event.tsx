@@ -8,6 +8,27 @@ import { MdOutlinePlace } from "react-icons/md";
 import { IoIosPeople } from "react-icons/io";
 import { useRouter } from "next/navigation";
 
+const NoEvents = () => (
+  <div className="flex flex-col items-center justify-center h-64">
+    <svg
+      className="w-16 h-16 text-gray-400 mb-4"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+      />
+    </svg>
+    <p className="text-xl font-semibold text-gray-600">No events found</p>
+    <p className="text-gray-500 mt-2">Check back later for upcoming events!</p>
+  </div>
+);
+
 const projectId = process.env.NEXT_PUBLIC_PROJECTID!;
 
 const client = new Client()
@@ -70,7 +91,7 @@ export default function EventListing() {
         </p>
         {loader ? (
           <p className="mx-auto text-red-700">Loading....</p>
-        ) : (
+        ) : events && events.length > 0 ? (
           <div className="py-10">
             {events &&
               events.map((item) => (
@@ -164,6 +185,8 @@ export default function EventListing() {
                 </div>
               ))}
           </div>
+        ): (
+          <NoEvents />
         )}
       </div>
     </div>

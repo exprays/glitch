@@ -5,6 +5,8 @@ import { AppwriteConfig } from "@/constants/appwrite_config";
 import { useRouter } from "next/navigation";
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import ResponsiveFormContainer from "@/components/responsiveFormContainer";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 
 interface Sponsors {
   id: number;
@@ -111,24 +113,24 @@ const CreateEventPage = () => {
   };
 
   return (
-    <div className="max-w-none mx-auto p-8">
+    <div className="max-w-3xl mx-auto p-8">
       <h2 className="text-5xl text-[#f02e65] font-bold mb-4 my-5">
         Create Event
       </h2>
       <form onSubmit={handleSubmit}>
-        <ResponsiveFormContainer>
+        <>
           <div className="space-y-12">
             <div className="border-b border-gray-900/10 pb-12">
               <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                 <div className="sm:col-span-4 ">
-                  <label
+                  <Label
                     htmlFor="eventname"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
                     Event Name
-                  </label>
+                  </Label>
                   <div className="mt-2">
-                    <input
+                    <Input
                       type="text"
                       name="eventname"
                       id="eventname"
@@ -141,7 +143,7 @@ const CreateEventPage = () => {
                 </div>
 
                 <div className="col-span-full">
-                  <label
+                  <Label
                     htmlFor="description"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
@@ -149,7 +151,7 @@ const CreateEventPage = () => {
                     <span className="text-gray-600 px-3">
                       (Markdown will be suported soon)
                     </span>
-                  </label>
+                  </Label>
                   <div className="mt-2">
                     <textarea
                       id="description"
@@ -166,12 +168,12 @@ const CreateEventPage = () => {
                 </div>
 
                 <div className="col-span-full">
-                  <label
+                  <Label
                     htmlFor="banner"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
                     Banner photo
-                  </label>
+                  </Label>
                   <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
                     <div className="text-center">
                       <PhotoIcon
@@ -179,13 +181,13 @@ const CreateEventPage = () => {
                         aria-hidden="true"
                       />
                       <div className="col-span-2">
-                        <label
+                        <Label
                           htmlFor="banner"
                           className="text-gray-700 font-semibold"
                         >
                           Banner of Event:
-                        </label>
-                        <input
+                        </Label>
+                        <Input
                           id="banner"
                           type="file"
                           accept="image/*"
@@ -213,14 +215,14 @@ const CreateEventPage = () => {
 
               <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                 <div className="sm:col-span-3">
-                  <label
+                  <Label
                     htmlFor="audience"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
                     Target Audience
-                  </label>
+                  </Label>
                   <div className="mt-2">
-                    <input
+                    <Input
                       type="text"
                       name="audience"
                       id="audience"
@@ -233,12 +235,12 @@ const CreateEventPage = () => {
                 </div>
 
                 <div className="sm:col-span-3">
-                  <label
+                  <Label
                     htmlFor="type"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
                     Event Type
-                  </label>
+                  </Label>
                   <div className="mt-2">
                     <select
                       id="type"
@@ -254,18 +256,18 @@ const CreateEventPage = () => {
                 </div>
 
                 <div className="sm:col-span-4">
-                  <label
+                  <Label
                     htmlFor="attendees"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
                     Expected Number of Audience
-                  </label>
+                  </Label>
                   <div className="mt-2">
-                    <input
+                    <Input
                       id="attendees"
                       name="attendees"
                       type="number"
-                      value={attendees}
+                      placeholder="0"
                       onChange={(e) => setAttendees(Number(e.target.value))}
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     />
@@ -273,18 +275,18 @@ const CreateEventPage = () => {
                 </div>
 
                 <div className="sm:col-span-4">
-                  <label
+                  <Label
                     htmlFor="price"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
                     Ticket Price (Enter 0 if free)
-                  </label>
+                  </Label>
                   <div className="mt-2">
-                    <input
+                    <Input
                       id="price"
                       name="price"
                       type="number"
-                      value={price}
+                      placeholder="0"
                       onChange={(e) => setPrice(Number(e.target.value))}
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     />
@@ -292,12 +294,12 @@ const CreateEventPage = () => {
                 </div>
 
                 <div className="sm:col-span-3">
-                  <label
+                  <Label
                     htmlFor="tech"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
                     Tech Focused
-                  </label>
+                  </Label>
                   <div className="mt-2">
                     <select
                       id="tech"
@@ -314,14 +316,14 @@ const CreateEventPage = () => {
                 </div>
 
                 <div className="sm:col-span-3">
-                  <label
+                  <Label
                     htmlFor="agenda"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
                     Agenda
-                  </label>
+                  </Label>
                   <div className="mt-2">
-                    <input
+                    <Input
                       type="text"
                       name="agenda"
                       id="agenda"
@@ -336,14 +338,14 @@ const CreateEventPage = () => {
                   <p className="block text-sm font-medium leading-6 text-gray-900 y-2">
                     Enter Sponsor&apos;s details
                   </p>
-                  <p className="block text-sm font-medium leading-6 text-gray-600 y-2">
+                  <p className="block text-sm font-medium leading-6 text-gray-400 y-2">
                     (Enter Link including https://)
                   </p>
                 </div>
               </div>
               {sponsors.map((field) => (
-                <div key={field.id} className="flex field-container py-2 px-2">
-                  <input
+                <div key={field.id} className="flex field-container py-2 px-2 gap-4">
+                  <Input
                     type="text"
                     value={field.name}
                     onChange={(e) =>
@@ -353,7 +355,7 @@ const CreateEventPage = () => {
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
 
-                  <input
+                  <Input
                     type="text"
                     value={field.url}
                     onChange={(e) =>
@@ -395,14 +397,14 @@ const CreateEventPage = () => {
 
               <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                 <div className="sm:col-span-3">
-                  <label
+                  <Label
                     htmlFor="hostname"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
                     Host Name
-                  </label>
+                  </Label>
                   <div className="mt-2">
-                    <input
+                    <Input
                       type="text"
                       name="hostname"
                       id="hostname"
@@ -415,14 +417,14 @@ const CreateEventPage = () => {
                 </div>
 
                 <div className="sm:col-span-3">
-                  <label
+                  <Label
                     htmlFor="eventdate"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
                     Event Date
-                  </label>
+                  </Label>
                   <div className="mt-2">
-                    <input
+                    <Input
                       type="date"
                       name="eventdate"
                       id="eventdate"
@@ -434,14 +436,14 @@ const CreateEventPage = () => {
                 </div>
 
                 <div className="sm:col-span-4">
-                  <label
+                  <Label
                     htmlFor="email"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
                     Contact Email address
-                  </label>
+                  </Label>
                   <div className="mt-2">
-                    <input
+                    <Input
                       id="email"
                       name="email"
                       type="email"
@@ -455,14 +457,14 @@ const CreateEventPage = () => {
                 </div>
 
                 <div className="sm:col-span-3">
-                  <label
+                  <Label
                     htmlFor="country"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
                     Country
-                  </label>
+                  </Label>
                   <div className="mt-2">
-                    <input
+                    <Input
                       type="text"
                       name="country"
                       id="country"
@@ -475,14 +477,14 @@ const CreateEventPage = () => {
                 </div>
 
                 <div className="col-span-full">
-                  <label
+                  <Label
                     htmlFor="address"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
                     Street address
-                  </label>
+                  </Label>
                   <div className="mt-2">
-                    <input
+                    <Input
                       type="text"
                       name="address"
                       id="address"
@@ -495,14 +497,14 @@ const CreateEventPage = () => {
                 </div>
 
                 <div className="sm:col-span-2 sm:col-start-1">
-                  <label
+                  <Label
                     htmlFor="city"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
                     City
-                  </label>
+                  </Label>
                   <div className="mt-2">
-                    <input
+                    <Input
                       type="text"
                       name="city"
                       id="city"
@@ -515,14 +517,14 @@ const CreateEventPage = () => {
                 </div>
 
                 <div className="sm:col-span-2">
-                  <label
+                  <Label
                     htmlFor="state"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
                     State / Province
-                  </label>
+                  </Label>
                   <div className="mt-2">
-                    <input
+                    <Input
                       type="text"
                       name="state"
                       id="state"
@@ -535,14 +537,14 @@ const CreateEventPage = () => {
                 </div>
 
                 <div className="sm:col-span-2">
-                  <label
+                  <Label
                     htmlFor="postal"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
                     ZIP / Postal code
-                  </label>
+                  </Label>
                   <div className="mt-2">
-                    <input
+                    <Input
                       type="text"
                       name="postal"
                       id="postal"
@@ -567,14 +569,14 @@ const CreateEventPage = () => {
 
               <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                 <div className="sm:col-span-3">
-                  <label
+                  <Label
                     htmlFor="twitterl"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
                     Twitter link
-                  </label>
+                  </Label>
                   <div className="mt-2">
-                    <input
+                    <Input
                       type="text"
                       name="twitter"
                       id="twitter"
@@ -587,14 +589,14 @@ const CreateEventPage = () => {
                   </div>
                 </div>
                 <div className="sm:col-span-3">
-                  <label
+                  <Label
                     htmlFor="linkedinl"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
                     LinkedIn link
-                  </label>
+                  </Label>
                   <div className="mt-2">
-                    <input
+                    <Input
                       type="text"
                       name="linkedin"
                       id="linkedin"
@@ -607,14 +609,14 @@ const CreateEventPage = () => {
                   </div>
                 </div>
                 <div className="sm:col-span-3">
-                  <label
+                  <Label
                     htmlFor="websitel"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
                     Website link
-                  </label>
+                  </Label>
                   <div className="mt-2">
-                    <input
+                    <Input
                       type="text"
                       name="website"
                       id="website"
@@ -627,14 +629,14 @@ const CreateEventPage = () => {
                   </div>
                 </div>
                 <div className="sm:col-span-3">
-                  <label
+                  <Label
                     htmlFor="instagraml"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
                     Instagram link
-                  </label>
+                  </Label>
                   <div className="mt-2">
-                    <input
+                    <Input
                       type="text"
                       name="instagram"
                       id="instagram"
@@ -661,36 +663,36 @@ const CreateEventPage = () => {
                   </p>
                   <div className="mt-6 space-y-6">
                     <div className="flex items-center gap-x-3">
-                      <input
+                      <Input
                         id="yes"
                         name="approval"
                         type="radio"
                         value="Yes"
                         onChange={(e) => setApproval(e.target.value)}
-                        className="h-4 w-4 border-gray-300 text-[#f02e65] focus:ring-[#f02e65]"
+                        className="h-4 w-4 border-gray-300 text-[#f02e65] focus:ring-[#f02e65] rounded-full"
                       />
-                      <label
+                      <Label
                         htmlFor="yes"
                         className="block text-sm font-medium leading-6 text-gray-900"
                       >
                         Yes
-                      </label>
+                      </Label>
                     </div>
                     <div className="flex items-center gap-x-3">
-                      <input
+                      <Input
                         id="no"
                         name="approval"
                         type="radio"
                         value="No"
                         onChange={(e) => setApproval(e.target.value)}
-                        className="h-4 w-4 border-gray-300 text-[#f02e65] focus:ring-[#f02e65]"
+                        className="h-4 w-4 border-gray-300 text-[#f02e65] focus:ring-[#f02e65] rounded-full"
                       />
-                      <label
+                      <Label
                         htmlFor="no"
                         className="block text-sm font-medium leading-6 text-gray-900"
                       >
                         No
-                      </label>
+                      </Label>
                     </div>
                   </div>
                 </fieldset>
@@ -706,7 +708,7 @@ const CreateEventPage = () => {
               Save
             </button>
           </div>
-        </ResponsiveFormContainer>
+        </>
       </form>
     </div>
   );

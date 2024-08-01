@@ -16,7 +16,7 @@ const eventSchema = z.object({
   description: z.string().min(1, "Description is required"),
   banner: z.instanceof(File).nullable(),
   hostname: z.string().min(1, "Host name is required"),
-  eventdate: z.string().min(1, "Event date is required"),
+  eventdate: z.date({ required_error: "Event date is required" }),
   email: z.string().email("Invalid email address"),
   country: z.string().min(1, "Country is required"),
   address: z.string().min(1, "Address is required"),

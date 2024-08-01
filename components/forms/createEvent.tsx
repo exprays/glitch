@@ -35,7 +35,11 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import { XIcon } from "lucide-react";
+import { CalendarIcon, XIcon } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { cn } from "@/lib/utils";
+import { Calendar } from "../ui/calender";
+import { format } from "date-fns";
 
 export const EventForm = () => {
   const router = useRouter();
@@ -54,7 +58,7 @@ export const EventForm = () => {
       description: "",
       banner: null,
       hostname: "",
-      eventdate: "",
+      eventdate: new Date(),
       email: "",
       country: "",
       address: "",
@@ -112,7 +116,7 @@ export const EventForm = () => {
       description,
       banner,
       hostname,
-      eventdate,
+      eventdate = new Date(),
       email,
       country,
       address,
@@ -133,13 +137,15 @@ export const EventForm = () => {
       instagram = "",
     } = values;
 
+    const eventdatestring = eventdate.toISOString();
+
     appwriteConfig
       .createEvent(
         eventname,
         description,
         banner || new File([], ""),
         hostname,
-        eventdate,
+        eventdatestring,
         email,
         country,
         address,
@@ -447,32 +453,67 @@ export const EventForm = () => {
         {/* Step 3: Additional Details */}
         {step === 3 && (
           <>
-            <FormField
-              control={form.control}
-              name="country"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Country</FormLabel>
+            <div className="flex flex-col">
+              <div className="flex flex-row gap-6">
+                <FormField
+                  control={form.control}
+                  name="hostname"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Host</FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+          control={form.control}
+          name="eventdate"
+          render={({ field }) => (
+            <FormItem className="flex flex-col">
+              <FormLabel>Date of birth</FormLabel>
+              <Popover>
+                <PopoverTrigger asChild>
                   <FormControl>
-                    <Input {...field} />
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "w-[240px] pl-3 text-left font-normal",
+                        !field.value && "text-muted-foreground"
+                      )}
+                    >
+                      {field.value ? (
+                        format(field.value, "PPP")
+                      ) : (
+                        <span>Pick a date</span>
+                      )}
+                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                    </Button>
                   </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="city"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>City</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={field.value}
+                    onSelect={field.onChange}
+                    disabled={(date) =>
+                      date > new Date() || date < new Date("1900-01-01")
+                    }
+                  />
+                </PopoverContent>
+              </Popover>
+              <FormDescription>
+               Enter the event date
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+              </div>
+
+            </div>
             {/* Add more fields for this step as needed */}
             <div className="flex justify-between">
               <Button type="button" onClick={onPrevStep}>
