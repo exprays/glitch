@@ -7,11 +7,35 @@ import { z } from "zod";
 import { AppwriteConfig } from "@/constants/appwrite_config";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../ui/form";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { ImageInput } from "./imageInput";
 import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "../ui/card";
+import { XIcon } from "lucide-react";
 
 export const EventForm = () => {
   const router = useRouter();
@@ -45,28 +69,33 @@ export const EventForm = () => {
       linkedin: "",
       instagram: "",
       sponsors: [{ id: 1, name: "", url: "" }],
-    }
+    },
   });
 
   // Handling dynamic sponsor fields
-  const { fields: sponsors, append, remove, update } = useFieldArray<z.infer<typeof createFormSchema>, "sponsors", "id">({
-    control: form.control,
-    name: "sponsors",
-  });
 
-  const handleSponsorChange = (id: number, fieldName: string, value: string) => {
-    const index = sponsors.findIndex((field) => field.id === id);
-    if (index !== -1) {
-      update(index, { ...sponsors[index], [fieldName]: value });
-    }
+  const [sponsors, setSponsors] = useState([{ id: 1, name: "", url: "" }]);
+  const { control, handleSubmit } = useForm();
+
+  const handleSponsorChange = (id: number, field: string, value: string) => {
+    setSponsors((prevSponsors) =>
+      prevSponsors.map((sponsor) =>
+        sponsor.id === id ? { ...sponsor, [field]: value } : sponsor
+      )
+    );
   };
 
   const handleAddSponsor = () => {
-    append({ id: sponsors.length + 1, name: "", url: "" });
+    setSponsors((prevSponsors) => [
+      ...prevSponsors,
+      { id: Date.now(), name: "", url: "" },
+    ]);
   };
 
-  const handleRemoveSponsor = (index: number) => {
-    remove(index);
+  const handleRemoveSponsor = (id: number) => {
+    setSponsors((prevSponsors) =>
+      prevSponsors.filter((sponsor) => sponsor.id !== id)
+    );
   };
 
   const onNextStep = () => {
@@ -101,7 +130,7 @@ export const EventForm = () => {
       twitter = "",
       website = "",
       linkedin = "",
-      instagram = ""
+      instagram = "",
     } = values;
 
     appwriteConfig
@@ -145,7 +174,7 @@ export const EventForm = () => {
         {/* Step 1: Basic Information */}
         {step === 1 && (
           <>
-          <h3 className="font-semibold text-xl text-gray-500">Step 1 of 4</h3>
+            <h3 className="font-semibold text-xl text-gray-500">Step 1 of 4</h3>
             <FormField
               control={form.control}
               name="eventname"
@@ -185,43 +214,232 @@ export const EventForm = () => {
                 </FormItem>
               )}
             />
-            <Button type="button" onClick={onNextStep}>Next</Button>
+            <Button type="button" onClick={onNextStep} className="text-gray-50">
+              Next
+            </Button>
           </>
         )}
 
         {/* Step 2: Event Details */}
         {step === 2 && (
           <>
-            <FormField
-              control={form.control}
-              name="hostname"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Host Name</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="eventdate"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Event Date</FormLabel>
-                  <FormControl>
-                    <Input type="date" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <h3 className="font-semibold text-xl text-gray-500">Step 2 of 4</h3>
+            <div className="flex flex-col space-y-4">
+              <div className="flex flex-row gap-6">
+                <FormField
+                  control={form.control}
+                  name="audience"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Target audience</FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="type"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Event type</FormLabel>
+                      <FormControl>
+                        <Select {...field}>
+                          <SelectTrigger className="w-[218px]">
+                            <SelectValue placeholder="Choose" />
+                          </SelectTrigger>
+                          <SelectContent className="block bg-gradient-to-tr from-pink-300 via-inherit to-pink-200">
+                            <SelectItem
+                              value="In Person"
+                              className="cursor-pointer"
+                            >
+                              In Person
+                            </SelectItem>
+                            <SelectItem
+                              value="Virtual"
+                              className="cursor-pointer"
+                            >
+                              Virtual
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="flex flex-row gap-6">
+                <FormField
+                  control={form.control}
+                  name="attendees"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Expected no. of audience</FormLabel>
+                      <FormControl>
+                        <Input {...field} type="integer" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="price"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Ticket price</FormLabel>
+                      <FormControl>
+                        <Input {...field} type="integer" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="flex flex-row gap-6">
+                <FormField
+                  control={form.control}
+                  name="tech"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Tech focused</FormLabel>
+                      <FormControl>
+                        <Select {...field}>
+                          <SelectTrigger className="w-[218px]">
+                            <SelectValue placeholder="Choose" />
+                          </SelectTrigger>
+                          <SelectContent className="block bg-gradient-to-tr from-pink-300 via-inherit to-pink-200">
+                            <SelectItem value="Yes" className="cursor-pointer">
+                              Yes
+                            </SelectItem>
+                            <SelectItem value="No" className="cursor-pointer">
+                              No
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="agenda"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Agenda</FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <FormField
+                control={control}
+                name="sponsors"
+                render={() => (
+                  <FormItem>
+                    <div className="flex flex-col space-y-2">
+                      <FormLabel className="text-gray-900">
+                        Enter sponsor details
+                      </FormLabel>
+                      <FormLabel className="text-gray-400">
+                        (Enter Link including https://)
+                      </FormLabel>
+                    </div>
+                    <FormControl>
+                      <Card className="w-full max-w-md">
+                        <CardHeader>
+                          <CardTitle>Sponsors</CardTitle>
+                          <CardDescription>
+                            Add and manage your sponsors.
+                          </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="space-y-4">
+                            {sponsors.map((sponsor) => (
+                              <div
+                                key={sponsor.id}
+                                className="flex items-center gap-4"
+                              >
+                                <Controller
+                                  name={`sponsor-name-${sponsor.id}`}
+                                  control={control}
+                                  defaultValue={sponsor.name}
+                                  render={({ field }) => (
+                                    <Input
+                                      {...field}
+                                      placeholder="Sponsor name"
+                                      onChange={(e) => {
+                                        field.onChange(e);
+                                        handleSponsorChange(
+                                          sponsor.id,
+                                          "name",
+                                          e.target.value
+                                        );
+                                      }}
+                                    />
+                                  )}
+                                />
+                                <Controller
+                                  name={`sponsor-url-${sponsor.id}`}
+                                  control={control}
+                                  defaultValue={sponsor.url}
+                                  render={({ field }) => (
+                                    <Input
+                                      {...field}
+                                      placeholder="Sponsor URL"
+                                      onChange={(e) => {
+                                        field.onChange(e);
+                                        handleSponsorChange(
+                                          sponsor.id,
+                                          "url",
+                                          e.target.value
+                                        );
+                                      }}
+                                    />
+                                  )}
+                                />
+                                <Button
+                                  variant="ghost"
+                                  onClick={() =>
+                                    handleRemoveSponsor(sponsor.id)
+                                  }
+                                  className="ml-auto"
+                                >
+                                  <XIcon className="h-4 w-4" />
+                                </Button>
+                              </div>
+                            ))}
+                          </div>
+                        </CardContent>
+                        <CardFooter>
+                          <Button onClick={handleAddSponsor} className="bg-blue-500 text-gray-50">
+                            Add Sponsor
+                          </Button>
+                        </CardFooter>
+                      </Card>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
             {/* Add more fields for this step as needed */}
             <div className="flex justify-between">
-              <Button type="button" onClick={onPrevStep}>Previous</Button>
-              <Button type="button" onClick={onNextStep}>Next</Button>
+              <Button type="button" onClick={onPrevStep} className="text-gray-50">
+                Previous
+              </Button>
+              <Button type="button" onClick={onNextStep} className="text-gray-50">
+                Next
+              </Button>
             </div>
           </>
         )}
@@ -257,7 +475,9 @@ export const EventForm = () => {
             />
             {/* Add more fields for this step as needed */}
             <div className="flex justify-between">
-              <Button type="button" onClick={onPrevStep}>Previous</Button>
+              <Button type="button" onClick={onPrevStep}>
+                Previous
+              </Button>
               <Button type="submit">Submit</Button>
             </div>
           </>
